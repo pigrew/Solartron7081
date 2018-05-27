@@ -10,7 +10,7 @@
 				;	Checksum:	8900
 				;	CRC-32:		E880FBAB
 				;
-				;	Date:		Sun May 27 18:43:00 2018
+				;	Date:		Sun May 27 18:55:07 2018
 				;
 				;	CPU:		Hitachi 6303 (6301/6303 family)
 				;
@@ -118,8 +118,7 @@ E000 : AE		" "		db	$AE
 				;
 E001				rst:
 E001 : 8E 00 FF		"   "		lds	#$00FF
-E004 : 86 FF		"  "		ldaa	#$FF	; Initialize I/O ports
-E004 : 86 FF		"  "		ldaa	#$FF
+E004 : 86 FF		"  "		ldaa	#$FF			; Initialize I/O ports
 E006 : B7 00 04		"   "		staa	REG_P3Dir
 E009 : B7 00 05		"   "		staa	REG_P4Dir
 E00C : 86 49		" I"		ldaa	#$49
@@ -129,8 +128,7 @@ E013 : B7 61 00		" a "		staa	EXT_HI_neg
 E016 : 86 69		" i"		ldaa	#$69
 E018 : B7 62 00		" b "		staa	EXT_AC_neg
 E01B : 4F		"O"		clra
-E01C : CE FF FF		"   "		ldx	#$FFFF	; ROM Checksum
-E01C : CE FF FF		"   "		ldx	#$FFFF
+E01C : CE FF FF		"   "		ldx	#$FFFF				; Verify ROM Checksum
 E01F				rst_chksumLoop:
 E01F : AB 00		"  "		adda	$00,x
 E021 : 09		" "		dex
