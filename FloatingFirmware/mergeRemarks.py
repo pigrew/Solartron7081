@@ -45,18 +45,22 @@ for asm_line in asm_fp:
 		asm_parts = asm_line.split(None,2)
 		asm_line_num = int(asm_parts[0],16)
 		while(rem and rem[0] < asm_line_num):
-			print("R ; " + rem[1])
+			print("\t\t\t\t\t; " + rem[1])
 			rem = getNextRemark(rem_fp)
 			
 		if(rem and rem[0] == asm_line_num):
-			print("M "+ asm_line + "\t; " + rem[1])
+			print(asm_line + "\t; " + rem[1])
 			rem = getNextRemark(rem_fp)
 		while(rem and rem[0] == asm_line_num):
-			print("N \t; " + rem[1])
+			print("\t\t\t\t\t; " + rem[1])
 			rem = getNextRemark(rem_fp)
-		print("C %s" % (asm_line))
+		print("%s" % (asm_line))
 	else:
-		print("N %s" % (asm_line))
+		print("%s" % (asm_line))
+	
+while(rem):
+	print("\t\t\t\t\t; " + rem[1])
+	rem = getNextRemark(rem_fp)
 	
 asm_fp.close()
 rem_fp.close()
