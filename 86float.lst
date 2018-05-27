@@ -10,7 +10,7 @@
 							;	Checksum:	8900
 							;	CRC-32:		E880FBAB
 							;
-							;	Date:		Sun May 27 15:34:17 2018
+							;	Date:		Sun May 27 17:20:34 2018
 							;
 							;	CPU:		Hitachi 6303 (6301/6303 family)
 							;
@@ -25,9 +25,14 @@
 0002 : 00			    " "				db	$00
 0003							REG_P2Data:
 0003 : 00			    " "				db	$00
-							;
-							;
-								org	$0008
+0004							REG_P3Dir:
+0004 : 00			    " "				db	$00
+0005							REG_P4Dir:
+0005 : 00			    " "				db	$00
+0006							REG_P3Data:
+0006 : 00			    " "				db	$00
+0007							REG_P4Data:
+0007 : 00			    " "				db	$00
 0008							REG_TMR_Ctrl:
 0008 : 00			    " "				db	$00
 0009							REG_TMR_H:
@@ -62,22 +67,66 @@
 0082 : 00			    " "				db	$00
 							;
 							;
-								org	$DFF8
-DFF8 : 00 00 00 00 00 00 00 00	    "        "			db	$00, $00, $00, $00, $00, $00, $00, $00
+								org	$2000
+2000							EXT_GLUG_HI:
+2000 : 00			    " "				db	$00
+							;
+							;
+								org	$4000
+4000							EXT_GLUG_LOW:
+4000 : 00			    " "				db	$00
+							;
+							;
+								org	$6000
+6000							EXT_LO_neg:
+6000 : 00			    " "				db	$00
+							;
+							;
+								org	$6100
+6100							EXT_HI_neg:
+6100 : 00			    " "				db	$00
+							;
+							;
+								org	$6200
+6200							EXT_AC_neg:
+6200 : 00			    " "				db	$00
+							;
+							;
+								org	$6300
+6300							EXT_TC_neg:
+6300 : 00			    " "				db	$00
+							;
+							;
+								org	$6400
+6400							EXT_STIM_STOP:
+6400 : 00			    " "				db	$00
+							;
+							;
+								org	$6500
+6500							EXT_STIM_START:
+6500 : 00			    " "				db	$00
+							;
+							;
+								org	$A000
+A000							EXT_NVM_PROGRAM_EN:
+A000 : 00			    " "				db	$00
+							;
+							;
+								org	$E000
 E000							chksum:
 E000 : AE			    " "				db	$AE
 							;
 E001							rst:
 E001 : 8E 00 FF			    "   "	[3]		lds	#$00FF
 E004 : 86 FF			    "  "	[2]		ldaa	#$FF
-E006 : B7 00 04			    "   "	[4]		staa	X0004
-E009 : B7 00 05			    "   "	[4]		staa	X0005
+E006 : B7 00 04			    "   "	[4]		staa	REG_P3Dir
+E009 : B7 00 05			    "   "	[4]		staa	REG_P4Dir
 E00C : 86 49			    " I"	[2]		ldaa	#$49
-E00E : B7 60 00			    " ` "	[4]		staa	X6000
+E00E : B7 60 00			    " ` "	[4]		staa	EXT_LO_neg
 E011 : 86 14			    "  "	[2]		ldaa	#$14
-E013 : B7 61 00			    " a "	[4]		staa	X6100
+E013 : B7 61 00			    " a "	[4]		staa	EXT_HI_neg
 E016 : 86 69			    " i"	[2]		ldaa	#$69
-E018 : B7 62 00			    " b "	[4]		staa	X6200
+E018 : B7 62 00			    " b "	[4]		staa	EXT_AC_neg
 E01B : 4F			    "O"		[1]		clra
 E01C : CE FF FF			    "   "	[3]		ldx	#$FFFF
 E01F							rst_chksumLoop:
@@ -188,7 +237,7 @@ E0D9							LE0D9:
 E0D9 : F7 00 03			    "   "	[4]		stab	REG_P2Data
 E0DC : 8A 30			    " 0"	[2]		oraa	#$30
 E0DE : BD E8 45			    "  E"	[6]		jsr	sub_UART_TX_A
-E0E1 : F6 40 00			    " @ "	[4]		ldab	X4000
+E0E1 : F6 40 00			    " @ "	[4]		ldab	EXT_GLUG_LOW
 E0E4 : 86 49			    " I"	[2]		ldaa	#$49
 E0E6 : 97 67			    " g"	[3]		staa	X0067
 E0E8 : 86 14			    "  "	[2]		ldaa	#$14
@@ -1567,11 +1616,11 @@ E979							LE979:
 E979 : BD E9 8C			    "   "	[6]		jsr	sub_E98C
 E97C							LE97C:
 E97C : 96 67			    " g"	[3]		ldaa	X0067
-E97E : B7 60 00			    " ` "	[4]		staa	X6000
+E97E : B7 60 00			    " ` "	[4]		staa	EXT_LO_neg
 E981 : 96 68			    " h"	[3]		ldaa	X0068
-E983 : B7 61 00			    " a "	[4]		staa	X6100
+E983 : B7 61 00			    " a "	[4]		staa	EXT_HI_neg
 E986 : 96 69			    " i"	[3]		ldaa	X0069
-E988 : B7 62 00			    " b "	[4]		staa	X6200
+E988 : B7 62 00			    " b "	[4]		staa	EXT_AC_neg
 E98B : 39			    "9"		[5]		rts
 							;
 E98C							sub_E98C:
@@ -2741,24 +2790,24 @@ F19F : 3B			    ";"		[10]		rti
 F1A0							sub_delay_06C1:
 F1A0 : DF 4E			    " N"	[4]		stx	X004E
 F1A2 : CE 06 C1			    "   "	[3]		ldx	#$06C1
-F1A5 : 20 13			    "  "	[3]		bra	sub_delay_end
+F1A5 : 20 13			    "  "	[3]		bra	delay_end
 							;
 F1A7							sub_delay_016D:
 F1A7 : DF 4E			    " N"	[4]		stx	X004E
 F1A9 : CE 01 6D			    "  m"	[3]		ldx	#$016D
-F1AC : 20 0C			    "  "	[3]		bra	sub_delay_end
+F1AC : 20 0C			    "  "	[3]		bra	delay_end
 							;
 F1AE							sub_delay_00AC:
 F1AE : DF 4E			    " N"	[4]		stx	X004E
 F1B0 : CE 00 AC			    "   "	[3]		ldx	#$00AC
-F1B3 : 20 05			    "  "	[3]		bra	sub_delay_end
+F1B3 : 20 05			    "  "	[3]		bra	delay_end
 							;
 F1B5							sub_delay_0020:
 F1B5 : DF 4E			    " N"	[4]		stx	X004E
 F1B7 : CE 00 20			    "   "	[3]		ldx	#$0020
-F1BA							sub_delay_end:
+F1BA							delay_end:
 F1BA : 09			    " "		[1]		dex
-F1BB : 26 FD			    "& "	[3]		bne	sub_delay_end
+F1BB : 26 FD			    "& "	[3]		bne	delay_end
 F1BD : DE 4E			    " N"	[4]		ldx	X004E
 F1BF : 39			    "9"		[5]		rts
 F1C0							tof:
@@ -2828,8 +2877,10 @@ Value		Type	Name
 0001		Data	REG_P2Dir
 0002		Data	REG_P1Data
 0003		Data	REG_P2Data
-0004		Data	X0004
-0005		Data	X0005
+0004		Data	REG_P3Dir
+0005		Data	REG_P4Dir
+0006		Data	REG_P3Data
+0007		Data	REG_P4Data
 0008		Data	REG_TMR_Ctrl
 0009		Data	REG_TMR_H
 000A		Data	REG_TMR_L
@@ -2923,11 +2974,16 @@ Value		Type	Name
 008A		Data	X008A
 008C		Data	X008C
 008D		Data	X008D
+2000		Data	EXT_GLUG_HI
 3FFF		Data	X3FFF
-4000		Data	X4000
-6000		Data	X6000
-6100		Data	X6100
-6200		Data	X6200
+4000		Data	EXT_GLUG_LOW
+6000		Data	EXT_LO_neg
+6100		Data	EXT_HI_neg
+6200		Data	EXT_AC_neg
+6300		Data	EXT_TC_neg
+6400		Data	EXT_STIM_STOP
+6500		Data	EXT_STIM_START
+A000		Data	EXT_NVM_PROGRAM_EN
 E000		Data	chksum
 E001		Code	rst
 E01F		Code	rst_chksumLoop
@@ -3302,7 +3358,7 @@ F1A0		Code	sub_delay_06C1
 F1A7		Code	sub_delay_016D
 F1AE		Code	sub_delay_00AC
 F1B5		Code	sub_delay_0020
-F1BA		Code	sub_delay_end
+F1BA		Code	delay_end
 F1C0		Code	tof
 F1C1		Code	icf
 F1C2		Code	ocf
@@ -3319,6 +3375,6 @@ FFFA		Data	swi_vec
 FFFC		Data	nmi_vec
 FFFE		Data	rst_vec
 
-Number of symbols:			494
+Number of symbols:			501
 
 ;--------------------------------------------------------------

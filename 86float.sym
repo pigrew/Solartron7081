@@ -1,15 +1,21 @@
 cpu 6303
 org 0x0000
 ; Zeros in the input
-skip 0x0000 0xDFF8
+skip 0x0000 0xE000
 ; 0xFF in the input
 skip 0xF200 0x0DD0
 
-; IO Ports
+; Internal IO Ports
 byte 0x0000 REG_P1Dir
 byte 0x0001 REG_P2Dir
 byte 0x0002 REG_P1Data
 byte 0x0003 REG_P2Data
+; These four may not be used??? For compatiblity with other CPUs?
+byte 0x0004 REG_P3Dir
+byte 0x0005 REG_P4Dir
+byte 0x0006 REG_P3Data
+byte 0x0007 REG_P4Data
+
 byte 0x0008 REG_TMR_Ctrl
 byte 0x0009 REG_TMR_H
 byte 0x000a REG_TMR_L
@@ -25,6 +31,26 @@ byte 0x0013 REG_UART_TX
 
 byte 0x0014 RAM_CTRL
 
+; External peripherals
+; 0x0000 RAM
+; 0x2000 GLUG HI-
+; 0x4000 GLUG LOW-
+; 0x6000 Extender below
+; 0x8000  <not used>
+; 0xA000 NVM Programming Voltage Enable
+; 0xC000 <not used>
+; 0xE000 ROM
+
+byte 0x2000 EXT_GLUG_HI
+byte 0x4000 EXT_GLUG_LOW
+byte 0x6000 EXT_LO_neg
+byte 0x6100 EXT_HI_neg
+byte 0x6200 EXT_AC_neg
+byte 0x6300 EXT_TC_neg
+byte 0x6400 EXT_STIM_STOP
+byte 0x6500 EXT_STIM_START
+byte 0xA000 EXT_NVM_PROGRAM_EN
+
 
 
 ; Version
@@ -32,6 +58,8 @@ string 0xFFDA BuildDateStr 0x16
 
 ; checksum byte
 byte 0xE000 chksum
+
+; Variables
 byte 0x0082 prgm_state
 
 ;
@@ -105,7 +133,7 @@ code 0xF1A0 sub_delay_06C1
 code 0xF1A7 sub_delay_016D
 code 0xF1AE sub_delay_00AC
 code 0xF1B5 sub_delay_0020
-code 0xF1BA sub_delay_end
+code 0xF1BA delay_end
 ; SCI_vec
 code 0xF12E sci_end
 
