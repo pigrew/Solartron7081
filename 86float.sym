@@ -1,0 +1,132 @@
+cpu 6303
+org 0x0000
+; Zeros in the input
+skip 0x0000 0xDFF8
+; 0xFF in the input
+skip 0xF200 0x0DD0
+
+; IO Ports
+byte 0x0000 REG_P1Dir
+byte 0x0001 REG_P2Dir
+byte 0x0002 REG_P1Data
+byte 0x0003 REG_P2Data
+byte 0x0008 REG_TMR_Ctrl
+byte 0x0009 REG_TMR_H
+byte 0x000a REG_TMR_L
+byte 0x000B REG_OCMP_H
+byte 0x000C REG_OCMP_L
+byte 0x000D REG_ICAP_H
+byte 0x000E REG_ICAP_L
+
+byte 0x0010 REG_UART_MODE
+byte 0x0011 REG_UART_CTRL
+byte 0x0012 REG_UART_RX
+byte 0x0013 REG_UART_TX
+
+byte 0x0014 RAM_CTRL
+
+
+
+; Version
+string 0xFFDA BuildDateStr 0x16
+
+; checksum byte
+byte 0xE000 chksum
+byte 0x0082 prgm_state
+
+;
+code 0xE11C sub_E11C
+code 0xE137 sub_E137
+code 0xE1B1 sub_E1B1
+code 0xE1D3 sub_E1D3
+code 0xE1E8 sub_E1E8
+code 0xE1EE sub_E1EE
+code 0xE1DE sub_E1DE
+code 0xE2BD sub_E2BD
+code 0xE300 sub_E300
+code 0xE30E sub_E30E
+code 0xE31B sub_E31B
+code 0xE38A sub_E38A
+code 0xE38F sub_E38F
+
+code 0xE3AE sub_E3AE
+code 0xE419 sub_E419
+code 0xE431 sub_E431
+code 0xE47B sub_E47B
+code 0xE4B4 sub_E4B4
+code 0xE516 sub_E516
+code 0xE540 sub_E540
+code 0xE573 sub_E573
+code 0xE64C sub_E64C
+code 0xE66C sub_E66C
+code 0xE67B sub_E67B
+code 0xE6B6 sub_E6B6
+code 0xE6D4 sub_E6D4
+code 0xE6E1 sub_E6E1
+code 0xE6EE sub_E6EE
+code 0xE70D sub_E70D
+code 0xE7BA sub_E7BA
+
+
+code 0xE81C sub_handleUARTRX
+code 0xE817 sub_E817
+code 0xE842 sub_UART_TX_A_WITH_EXTRA
+code 0xE845 sub_UART_TX_A
+code 0xE854 sub_main
+code 0xE884 sub_E884
+code 0xE893 sub_E893
+code 0xE910 sub_E910
+code 0xE965 sub_E965
+code 0xE98C sub_E98C
+code 0xE9CE sub_E9CE
+code 0xE9DC sub_E9DC
+code 0xEA15 sub_EA15
+code 0xEAA1 sub_handleState1
+code 0xEACA sub_handleState2
+code 0xEAF0 sub_handleState3
+code 0xEB11 sub_EB11
+code 0xEB60 sub_EB60
+code 0xEBB3 sub_EBB3
+code 0xEC4D sub_EC4D
+code 0xECDF sub_ECDF
+code 0xED4A sub_ED4A
+code 0xEE6F sub_EE6F
+code 0xEF1B sub_EF1B
+code 0xEF37 sub_EF37
+code 0xEFAB sub_EFAB
+code 0xEFCC sub_EFCC
+code 0xEFED sub_EFED
+code 0xEFF2 sub_EFF2
+code 0xF00A sub_F00A
+code 0xF061 sub_F061
+code 0xF066 sub_F066
+code 0xF080 sub_F080
+code 0xF1A0 sub_delay_06C1
+code 0xF1A7 sub_delay_016D
+code 0xF1AE sub_delay_00AC
+code 0xF1B5 sub_delay_0020
+code 0xF1BA sub_delay_end
+; SCI_vec
+code 0xF12E sci_end
+
+; OCF
+code 0xF1ED ocf_end
+
+; Reset
+code 0xE01F rst_chksumLoop
+code 0xE030 rst_B
+code 0xE069 rst_setupUART
+code 0xE09D rst_setupP1
+; Reset vector
+word 0xFFEE trap_vec ;trap
+;vector 0xFFEE trap_vec trap
+vector 0xFFF0 SCI_vec sci
+vector 0xFFF2 tof_vec tof
+vector 0xFFF4 ocf_vec ocf
+vector 0xFFF6 icf_vec icf
+vector 0xFFF8 irq_vec irq
+vector 0xFFFA swi_vec swi
+vector 0xFFFC nmi_vec nmi
+vector 0xFFFE rst_vec rst
+
+
