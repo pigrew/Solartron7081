@@ -27,13 +27,12 @@ def getNextRemark(rem_fp):
 def countStringCols(str, tabwidth=4):
 	w = 0
 	for c in str:
+		w = w + 1
 		if(c == '\t'):
 			x = w % tabwidth
-			if (x == 0):
-				x = tabwidth
-			w = w + x
-		else:
-			w = w + 1
+			if(x>0):
+				w = w + (tabwidth-x)
+		#print ("* %c => %d" % (c, w))
 	return w
 	
 eprint("Merging Remarks into source file")
@@ -49,7 +48,7 @@ asm_fp = open(asmFilename, 'r')
 rem = getNextRemark(rem_fp)
 exit
 tabwidth = 4
-commentColumn = 56
+commentColumn = 80
 
 for asm_line in asm_fp:
 	# Read a line
@@ -59,12 +58,13 @@ for asm_line in asm_fp:
 		asm_parts = asm_line.split(None,2)
 		asm_line_num = int(asm_parts[0],16)
 		while(rem and rem[0] < asm_line_num):
-			print("%s;%s" % ("\t" * (commentColumn/tabwidth),rem[1]))
+			print("%s;%s" % ("\t" * int(commentColumn/tabwidth),rem[1]))
 			rem = getNextRemark(rem_fp)
 		if(rem and rem[0] == asm_line_num):
 			w = commentColumn - countStringCols(asm_line)
 			if(w < 1):
 				w = 4
+			w = w - (w % 4)
 			w = int(w / 4);
 			print("%s%s; %s" % (asm_line, "\t" * w, rem[1]))
 			rem = getNextRemark(rem_fp)

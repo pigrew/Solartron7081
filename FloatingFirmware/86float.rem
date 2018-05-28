@@ -1,3 +1,6 @@
 E004 Initialize I/O ports
-
 E01C Verify ROM Checksum
+E0D1 To be sent over UART
+F1C2 Timer output compare interrupt
+F1C5 Check OCF bit
+F1C7 return if OCF bit not set
